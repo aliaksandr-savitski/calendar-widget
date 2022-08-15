@@ -15,6 +15,11 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js"],
+  "exclude": ["node_modules"],
+  "paths": {
+    "@styles/*": ["./src/styles"],
+    "@pages/*": ["./src/pages"],
+    "@component/*": ["./src/components"],
+  },
 }
