@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
+const LOCALE = 'en-GB';
+
 const Header = styled.header`
   display: flex;
   width: 100%;
@@ -24,11 +26,19 @@ const NavigationWrapper = styled.nav`
 const NavigationButton = styled.button`
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 0;
   border: none;
-  width: 1.25rem;
-  height: 1.875rem;
-  background: #fff;
+  width: 3rem;
+  height: 3rem;
+  background-color: #fff;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  border-radius: 50%;
+  
+  &:hover {
+    background-color: rgba(51, 51, 51, 0.1);
+  }
 `;
 
 const NavigationButtonArrow = styled.div`
@@ -93,6 +103,19 @@ const CalendarDayItem = styled.li`
     background-color: rgba(51, 51, 51, 0.1);
     cursor: pointer;
   }
+
+  ${({ isCurrentDay }) => isCurrentDay
+    ? `
+      background-color: #FB3F4A;
+      color: #fff;
+      transition: none;
+
+      &:hover {
+        background-color: #c8323b;
+      }
+    `
+    : ``
+  }
 `;
 
 
@@ -101,19 +124,23 @@ const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satur
 const getDaysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
 
 const MonthView = () => {
-  const [activeMonth, setActiveMonth] = useState();
+  const [navigation, setNavigation] = useState(0);
   const [clickedDay, setClickedDay] = useState(null);
   const [events, setEvents] = useState();
 
-
   const date = new Date();
+
+  if (navigation !== 0) {
+    date.setMonth(new Date().getMonth() + navigation)
+  }
+
   const currentDay = date.getDate();
   const currentMonth = date.getMonth();
   const currentYear = date.getFullYear();
   const daysInCurrentMonth = getDaysInMonth(currentYear, currentMonth);
 
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-  const dateString = firstDayOfMonth.toLocaleString('en-GB', {
+  const dateString = firstDayOfMonth.toLocaleString(LOCALE, {
     weekday: 'long',
     year: 'numeric',
     month: 'numeric',
@@ -132,15 +159,23 @@ const MonthView = () => {
     }
   );
 
+  const onBack = () => {
+    setNavigation(navigation - 1);
+  };
+
+  const onForward = () => {
+    setNavigation(navigation + 1);
+  };
+
   return (
     <>
       <Header>
-        <CurrentMonth>August 2022</CurrentMonth>
+        <CurrentMonth>{date.toLocaleDateString(LOCALE, { month: 'long' })} {currentYear}</CurrentMonth>
         <NavigationWrapper>
-          <NavigationButton>
+          <NavigationButton onClick={onBack}>
             <NavigationButtonArrow />
           </NavigationButton>
-          <NavigationButton>
+          <NavigationButton onClick={onForward}>
             <NavigationButtonArrow direction="right" />
           </NavigationButton>
         </NavigationWrapper>
@@ -165,7 +200,9 @@ const MonthView = () => {
 
         {/* @ts-expect-error */}
         {[...Array(daysInCurrentMonth).keys()].map((item, index) => (
-          <CalendarDayItem key={index}>{index + 1}</CalendarDayItem>
+          <CalendarDayItem key={index} isCurrentDay={navigation === 0 && index === currentDay}>
+            {index + 1}
+          </CalendarDayItem>
         ))}
       </Calendar>
     </>
