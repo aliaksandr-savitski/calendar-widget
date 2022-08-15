@@ -19,6 +19,7 @@
       "@styles/*": ["./src/styles/*"],
       "@pages/*": ["./src/pages/*"],
       "@component/*": ["./src/components/*"],
+      "@views/*": ["./src/views/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js"],

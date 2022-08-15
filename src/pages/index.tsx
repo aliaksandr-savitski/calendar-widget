@@ -1,5 +1,7 @@
 import Head from 'next/head';
 
+import MonthView from '@views/MonthView';
+
 export default function HomePage() {
   return (
     <div>
@@ -10,9 +12,8 @@ export default function HomePage() {
       </Head>
 
       <main>
-        <h1>
-          Calendar Widget
-        </h1>
+        <h1>Calendar Widget</h1>
+        <MonthView />
       </main>
     </div>
   );
