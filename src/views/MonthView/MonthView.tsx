@@ -1,66 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
+import Header from './components/Header';
+
 const LOCALE = 'en-GB';
-
-const Header = styled.header`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  height: 1.875rem;
-  margin-bottom: 3.5rem;
-`;
-
-const CurrentMonth = styled.div`
-  display: flex;
-  color: #333333;
-  font-size: 1.5rem;
-  font-weight: 700;
-`;
-
-const NavigationWrapper = styled.nav`
-  display: flex;
-  align-items: center;
-`;
-
-const NavigationButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: none;
-  width: 3rem;
-  height: 3rem;
-  background-color: #fff;
-  transition: background-color 0.2s ease;
-  cursor: pointer;
-  border-radius: 50%;
-  
-  &:hover {
-    background-color: rgba(51, 51, 51, 0.1);
-  }
-`;
-
-const NavigationButtonArrow = styled.div`
-  width: 8px;
-  height: 8px;
-  border: 2px solid #333333;
-  transform: rotate(-45deg);
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-
-  ${({ direction }) => direction === 'right'
-    ? `
-      border-left: none;
-      border-top: none;
-    `
-    : `
-      border-right: none;
-      border-bottom: none;
-    `
-  }
-`;
 
 const WeekDaysList = styled.ul`
   display: flex;
@@ -118,7 +61,6 @@ const CalendarDayItem = styled.li`
   }
 `;
 
-
 const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 const getDaysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
@@ -149,37 +91,21 @@ const MonthView = () => {
   const [currentDayOfTheWeek] = dateString.split(', ');
   const paddingDaysNumber = WEEKDAYS.indexOf(currentDayOfTheWeek);
 
-  console.log(
-    {
-      currentDay,
-      currentMonth,
-      currentYear,
-      daysInCurrentMonth,
-      paddingDaysNumber,
-    }
-  );
-
-  const onBack = () => {
+  const goOneMonthBack = () => {
     setNavigation(navigation - 1);
   };
 
-  const onForward = () => {
+  const goOneMonthForward = () => {
     setNavigation(navigation + 1);
   };
 
   return (
     <>
-      <Header>
-        <CurrentMonth>{date.toLocaleDateString(LOCALE, { month: 'long' })} {currentYear}</CurrentMonth>
-        <NavigationWrapper>
-          <NavigationButton onClick={onBack}>
-            <NavigationButtonArrow />
-          </NavigationButton>
-          <NavigationButton onClick={onForward}>
-            <NavigationButtonArrow direction="right" />
-          </NavigationButton>
-        </NavigationWrapper>
-      </Header>
+      <Header
+        navigationDate={`${date.toLocaleDateString(LOCALE, { month: 'long' })} ${currentYear}`}
+        onBack={goOneMonthBack}
+        onForward={goOneMonthForward}
+      />
 
       <WeekDaysList>
         <WeekDay><span>Mo</span></WeekDay>
