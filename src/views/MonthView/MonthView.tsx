@@ -2,26 +2,9 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import Header from './components/Header';
+import WeekdayNames from './components/WeekdayNames';
 
 const LOCALE = 'en-GB';
-
-const WeekDaysList = styled.ul`
-  display: flex;
-  width: 100%;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  color: #333333;
-  font-size: 1.5rem;
-  height: 1.875rem;
-`;
-
-const WeekDay = styled.li`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1 1 0;
-`;
 
 const Calendar = styled.ul`
   display: grid;
@@ -107,16 +90,7 @@ const MonthView = () => {
         onForward={goOneMonthForward}
       />
 
-      <WeekDaysList>
-        <WeekDay><span>Mo</span></WeekDay>
-        <WeekDay><span>Tu</span></WeekDay>
-        <WeekDay><span>We</span></WeekDay>
-        <WeekDay><span>Th</span></WeekDay>
-        <WeekDay><span>Fr</span></WeekDay>
-        <WeekDay><span>Sa</span></WeekDay>
-        <WeekDay><span>Su</span></WeekDay>
-      </WeekDaysList>
-
+      <WeekdayNames />
 
       <Calendar>
         {/* days span */}
