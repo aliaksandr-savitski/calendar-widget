@@ -13,13 +13,14 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@styles/*": ["./src/styles/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@component/*": ["./src/components/*"],
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js"],
-  "exclude": ["node_modules"],
-  "paths": {
-    "@styles/*": ["./src/styles"],
-    "@pages/*": ["./src/pages"],
-    "@component/*": ["./src/components"],
-  },
+  "exclude": ["node_modules"]
 }
