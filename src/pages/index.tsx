@@ -12,7 +12,6 @@ export default function HomePage() {
       </Head>
 
       <main>
-        <h1>Calendar Widget</h1>
         <MonthView />
       </main>
     </div>
