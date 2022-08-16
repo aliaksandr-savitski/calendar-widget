@@ -55,7 +55,7 @@ const Calendar = ({
                   type="button"
                   onClick={onDayButtonClick(date)}
                   isCurrentDay={navigation === 0 && index + 1 === currentDay}
-                  disabled={navigation < 0 || (navigation === 0 && index + 1 <= currentDay)}
+                  disabled={navigation < 0 || (navigation === 0 && index + 1 < currentDay)}
                 >
                   {index + 1}
                 </CalendarDayItemButton>
