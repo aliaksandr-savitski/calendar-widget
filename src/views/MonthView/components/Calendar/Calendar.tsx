@@ -47,9 +47,9 @@ const Calendar = ({
     
         {Array.from(Array(daysInCurrentMonth).keys())
           .map((item, index) => {
-            const date = new Date(currentYear, currentMonth, index + 1).toISOString();
+            const date = new Date(currentYear, currentMonth, index + 2).toISOString();
 
-            const eventThisDate = events?.find(item => item.date === date);
+            const eventThisDate = events?.find(({ date: eventDate }) => eventDate === date);
 
             return (
               <CalendarDayItem key={index} hasEvent={!!eventThisDate}>

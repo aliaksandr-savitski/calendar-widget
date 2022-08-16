@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
-import type { MouseEventHandler } from 'react';
+import { useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
 import EventForm from '@forms/EventForm';
+import { CalendarContext } from '@state/CalendarContext';
 
 const ModalOuter = styled.div`
   position: absolute;
@@ -26,18 +26,33 @@ const ModalContainer = styled.div`
   align-items: center;
   width: 70%;
   height: auto;
-  padding: 2rem;
   border-radius: 4px;
   overflow: hidden;
   z-index: 20;
   background: #fff;
+  padding: 1rem;
+`;
+
+const ModalHeader = styled.header`
+  display: flex;
+  width: 100%;
+  // border-bottom: 1px solid #D9D9D9;
+  padding: 1.25rem 0;
+`;
+
+const Divider = styled.hr`
+  width: 100%;
+  height: 1px;
+  background-color: #D9D9D9;
+  border: none;
+  margin: 1rem 0;
 `;
 
 const ModalHeading = styled.h2`
   display: flex;
   font-size: 1.5rem;
   text-align: center;
-  margin: 1rem 0 2rem;
+  font-weight: 400;
 `;
 
 interface EventModalProps {
@@ -47,6 +62,9 @@ interface EventModalProps {
 const EventModal = ({
   closeEventModal,
 }: EventModalProps) => {
+  const { clickedDay, events } = useContext(CalendarContext);
+  const existingEvent = events?.find(item => item.date === clickedDay);
+
   const onOutsideClick = (event) => {
     if (event.target !== event.currentTarget) {
       return;
@@ -70,12 +88,22 @@ const EventModal = ({
     }
   }, []);
 
+  const isUpdate = !!existingEvent;
+
   return (
     <ModalOuter onClick={onOutsideClick}>
       <ModalContainer>
-        <ModalHeading>Add new event</ModalHeading>
+        <ModalHeader>
+          <ModalHeading>{`${isUpdate ? 'Update' : 'Add new'}`} event</ModalHeading>
+        </ModalHeader>
 
-        <EventForm closeEventModal={closeEventModal} />
+        <Divider />
+
+        <EventForm
+          closeEventModal={closeEventModal}
+          existingEvent={existingEvent}
+          isUpdateMode={isUpdate}
+        />
       </ModalContainer>
     </ModalOuter>
   );

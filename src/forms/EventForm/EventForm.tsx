@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useForm } from "react-hook-form";
 
 import { CalendarContext } from '@state/CalendarContext';
-import { useEventsQuery, useAddEventMutation, useUpdateEventMutation } from '@hooks/useEvents';
+import { useAddEventMutation, useUpdateEventMutation } from '@hooks/useEvents';
 
 const Form = styled.form`
   width: 100%;
@@ -16,11 +16,12 @@ const Form = styled.form`
 const FieldGroup = styled.div`
   position: relative;
   display: flex;
-  width: 100%:
+  width: 100%;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   margin: 1rem 0 2rem;
+  color: #4D4D4D;
 `;
 
 const ErrorMessage = styled.span`
@@ -31,6 +32,11 @@ const ErrorMessage = styled.span`
   font-size: 1rem;
 `;
 
+const FieldLabel = styled.label`
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+`;
+
 const Input = styled.input`
   width: 100%;
   height: auto;
@@ -38,8 +44,9 @@ const Input = styled.input`
   padding: 0.75rem 1rem;
   outline-offset: 2px;
   border-radius: 4px;
-  border: 1px solid rgba(51, 51, 51, 0.5);
+  border: 1px solid #D9D9D9;
   outline-color: #1A94DA;
+  color: #333;
 
   &:focus {
     border-color: transparent;
@@ -48,6 +55,10 @@ const Input = styled.input`
   ${({ hasError }) => hasError
     ? 'border-color: #FB3F4A;'
     : ''
+  }
+
+  &:disabled {
+    color: #8C8C8C;
   }
 `;
 
@@ -68,6 +79,18 @@ const SubmitButton = styled.button`
     background: #ccc;
     border-color: #8C8C8C;
     cursor: not-allowed;
+  }
+`;
+
+const CancelButton = styled.button`
+  border: none;
+  color: #4D4D4D;
+  text-decoration: none;
+  background: none;
+  margin: 1rem 0;
+
+  &:hover {
+    text-decoration: underline;
   }
 `;
 
@@ -95,11 +118,14 @@ const SubmitButtonText = ({ isUpdateMode }) => (
   </span>
 );
 
-const EventForm = ({ closeEventModal }) => {
-  const { clickedDay, events, updateEvent, addEvent } = useContext(CalendarContext);
+const EventForm = ({
+  closeEventModal,
+  existingEvent,
+  isUpdateMode,
+}) => {
+  const { clickedDay, updateEvent, addEvent } = useContext(CalendarContext);
   const { mutate: mutateAddEvent, isAddEventLoading } = useAddEventMutation();
   const { mutate: mutatePatchEvent, isPatchEventLoading } = useUpdateEventMutation();
-  const existingEvent = events?.find(item => item.date === clickedDay);
   
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
     mode: 'onSubmit',
@@ -133,7 +159,7 @@ const EventForm = ({ closeEventModal }) => {
   }
 
   const onSubmit = ({ title }) => {
-    if (!existingEvent) {
+    if (!isUpdateMode) {
       handleAddEvent(title);
       return;
     }
@@ -146,8 +172,19 @@ const EventForm = ({ closeEventModal }) => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FieldGroup>
+        <FieldLabel htmlFor="date">Date:</FieldLabel>
+        <Input
+          id="date"
+          value={clickedDay}
+          disabled
+        />
+      </FieldGroup>
+
+      <FieldGroup>
+        <FieldLabel htmlFor="title">Title:</FieldLabel>
         <Input
           {...register('title', { required: true })}
+          id="title"
           hasError={errors.title}
         />
 
@@ -160,9 +197,13 @@ const EventForm = ({ closeEventModal }) => {
       >
         {isLoading
           ? <Spinner />
-          : <SubmitButtonText isUpdateMode={!!existingEvent} />
+          : <SubmitButtonText isUpdateMode={!!isUpdateMode} />
         }
       </SubmitButton>
+
+      <CancelButton onClick={closeEventModal}>
+        Cancel
+      </CancelButton>
     </Form>
   );
 }
