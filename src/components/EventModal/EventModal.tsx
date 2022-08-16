@@ -1,5 +1,6 @@
 import { useEffect, useContext } from 'react';
 import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import EventForm from '@forms/EventForm';
 import { CalendarContext } from '@state/CalendarContext';
@@ -57,10 +58,12 @@ const ModalHeading = styled.h2`
 
 interface EventModalProps {
   closeEventModal: Function,
+  isOpen: boolean;
 }
 
 const EventModal = ({
   closeEventModal,
+  isOpen,
 }: EventModalProps) => {
   const { clickedDay, events } = useContext(CalendarContext);
   const existingEvent = events?.find(item => item.date === clickedDay);
@@ -91,21 +94,35 @@ const EventModal = ({
   const isUpdate = !!existingEvent;
 
   return (
-    <ModalOuter onClick={onOutsideClick}>
-      <ModalContainer>
-        <ModalHeader>
-          <ModalHeading>{`${isUpdate ? 'Update' : 'Add new'}`} event</ModalHeading>
-        </ModalHeader>
+    <AnimatePresence>
+      {isOpen
+        ? (
+          <ModalOuter
+            onClick={onOutsideClick}
+            as={motion.div}
+            key="modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <ModalContainer>
+              <ModalHeader>
+                <ModalHeading>{`${isUpdate ? 'Update' : 'Add new'}`} event</ModalHeading>
+              </ModalHeader>
 
-        <Divider />
+              <Divider />
 
-        <EventForm
-          closeEventModal={closeEventModal}
-          existingEvent={existingEvent}
-          isUpdateMode={isUpdate}
-        />
-      </ModalContainer>
-    </ModalOuter>
+              <EventForm
+                closeEventModal={closeEventModal}
+                existingEvent={existingEvent}
+                isUpdateMode={isUpdate}
+              />
+            </ModalContainer>
+          </ModalOuter>
+        )
+        : null
+      }
+    </AnimatePresence>
   );
 }
 

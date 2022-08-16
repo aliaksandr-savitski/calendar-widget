@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
 import { useForm } from "react-hook-form";
 
@@ -124,8 +124,8 @@ const EventForm = ({
   isUpdateMode,
 }) => {
   const { clickedDay, updateEvent, addEvent } = useContext(CalendarContext);
-  const { mutate: mutateAddEvent, isAddEventLoading } = useAddEventMutation();
-  const { mutate: mutatePatchEvent, isPatchEventLoading } = useUpdateEventMutation();
+  const { mutate: mutateAddEvent, isLoading: isAddEventLoading } = useAddEventMutation();
+  const { mutate: mutatePatchEvent, isLoading: isPatchEventLoading } = useUpdateEventMutation();
   
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
     mode: 'onSubmit',

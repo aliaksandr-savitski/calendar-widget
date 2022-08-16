@@ -1,4 +1,5 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
+import { motion } from 'framer-motion';
 
 import { CalendarContainer, CalendarDayItem, CalendarDayItemButton } from './Calendar.styles';
 
@@ -35,7 +36,7 @@ const Calendar = ({
 
   return (
     <>
-      <CalendarContainer>
+      <CalendarContainer as={motion.div} layout>
         {/* days span */}
         {Array.from(Array(paddingDaysCount).keys()).map((item, index) => (
           <CalendarDayItem key={index} />
@@ -62,10 +63,7 @@ const Calendar = ({
           })}
       </CalendarContainer>
 
-      {isEventModalOpen
-        ? <EventModal closeEventModal={closeEventModal} />
-        : null
-      }
+      <EventModal closeEventModal={closeEventModal} isOpen={isEventModalOpen} />
     </>
   );
 }

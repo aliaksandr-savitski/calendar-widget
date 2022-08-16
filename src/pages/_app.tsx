@@ -1,4 +1,5 @@
 import styled, { ThemeProvider } from 'styled-components';
+import { motion } from 'framer-motion';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 import { CalendarContextProvider } from '@state/CalendarContext';
@@ -37,7 +38,7 @@ function App({ Component, pageProps }) {
         <ThemeProvider theme={theme}>
           <CalendarContextProvider>
             <Wrapper>
-              <Container>
+              <Container as={motion.div} layout>
                 <Component {...pageProps} />
               </Container>
             </Wrapper>
