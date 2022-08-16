@@ -12,10 +12,18 @@ export const CalendarDayItem = styled.li`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const CalendarDayItemButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.5rem;
+  width: 3.5rem;
   height: 3.5rem;
   color: #333333;
   border-radius: 50%;
+  border: none;
   background-color: rgba(51, 51, 51, 0);
   transition: background-color 0.25s ease;
 
@@ -35,5 +43,10 @@ export const CalendarDayItem = styled.li`
       }
     `
     : ``
+  }
+
+  &:disabled {
+    pointer-events: none;
+    color: #C4C4C4;
   }
 `;

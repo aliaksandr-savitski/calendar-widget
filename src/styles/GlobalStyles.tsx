@@ -9,12 +9,18 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
+
   html {
     font-size: 62.5%;
   }
+
   body {
     min-height: 100vh;
     overflow: hidden;
+  }
+
+  button {
+    cursor: pointer;
   }
 `;
 

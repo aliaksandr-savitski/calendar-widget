@@ -1,4 +1,8 @@
-import { CalendarContainer, CalendarDayItem } from './Calendar.styles';
+import { useState } from 'react';
+import styled from 'styled-components';
+
+import { CalendarContainer, CalendarDayItem, CalendarDayItemButton } from './Calendar.styles';
+import EventModal from '@component/EventModal';
 
 interface CalendarProps {
   paddingDaysNumber: number;
@@ -12,20 +16,48 @@ const Calendar = ({
   navigation,
   currentDay,
   daysInCurrentMonth,
-}: CalendarProps) => (
-  <CalendarContainer>
-    {/* days span */}
-    {Array.from({ length: paddingDaysNumber }, () => (
-      <CalendarDayItem />
-    ))}
+}: CalendarProps) => {
+  const [isEventModalOpen, setEventModalOpen] = useState(false);
 
-    {Array.from(Array(daysInCurrentMonth).keys()).map((item, index) => (
-      <CalendarDayItem key={index} isCurrentDay={navigation === 0 && index === currentDay}>
-        {index + 1}
-      </CalendarDayItem>
-    ))}
-  </CalendarContainer>
+  const openEventModal = () => {
+    console.log('click openEventModal');
+    setEventModalOpen(true);
+  };
 
-);
+  const closeEventModal = () => {
+    setEventModalOpen(false);
+  };
+
+  return (
+    <>
+      <CalendarContainer>
+        {/* days span */}
+        {Array.from(Array(daysInCurrentMonth).keys()).map((item, index) => (
+          <CalendarDayItem key={index} />
+        ))}
+    
+        {Array.from(Array(daysInCurrentMonth).keys()).map((item, index) => (
+          <CalendarDayItem key={index}>
+            <CalendarDayItemButton
+              type="button"
+              onClick={openEventModal}
+              isCurrentDay={navigation === 0 && index + 1 === currentDay}
+              disabled={navigation < 0 || (navigation === 0 && index + 1 <= currentDay)}
+            >
+              {index + 1}
+            </CalendarDayItemButton>
+
+            
+          </CalendarDayItem>
+        ))}
+      </CalendarContainer>
+
+      {isEventModalOpen
+        ? <EventModal closeEventModal={closeEventModal} />
+        : null
+      }
+    </>
+  );
+}
 
 export default Calendar;
