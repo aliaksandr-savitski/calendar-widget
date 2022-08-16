@@ -1,4 +1,5 @@
 import styled, { ThemeProvider } from 'styled-components';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 import { CalendarContextProvider } from '@state/CalendarContext';
 import GlobalStyles from '@styles/GlobalStyles';
@@ -24,21 +25,24 @@ const Container = styled.div`
   box-shadow: 0px 4px 32px rgba(170, 170, 170, 0.3);
 `;
 
+const queryClient = new QueryClient();
 
 function App({ Component, pageProps }) {
   return (
     <>
       <GlobalStyles />
 
-      <ThemeProvider theme={theme}>
-        <CalendarContextProvider>
-          <Wrapper>
-            <Container>
-              <Component {...pageProps} />
-            </Container>
-          </Wrapper>
-        </CalendarContextProvider>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <CalendarContextProvider>
+            <Wrapper>
+              <Container>
+                <Component {...pageProps} />
+              </Container>
+            </Wrapper>
+          </CalendarContextProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
     </>
   );
 };
