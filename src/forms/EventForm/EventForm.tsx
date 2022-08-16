@@ -1,5 +1,9 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
 import { useForm } from "react-hook-form";
+
+import { CalendarContext } from '@state/CalendarContext';
+import { addEventMutation } from '@hooks/useEvents';
 
 const Form = styled.form`
   width: 100%;
@@ -58,34 +62,66 @@ const SubmitButton = styled.button`
   border: 1px solid #057DC2;
   padding: 0.5rem 2rem;
   color: #fff;
+  transition: all 0.2s linear;
+
+  &:disabled {
+    background: #ccc;
+    border-color: #8C8C8C;
+    cursor: not-allowed;
+  }
+`;
+
+const Spinner = styled.span`
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  border-top-color: #fff;
+  margin-left: 1rem;
+  animation: spinner 0.6s linear infinite;
 `;
 
 interface EventForm {
   setEvent: Function;
 }
 
-const EventForm = ({
-  setEvent
-}: EventForm) => {
+const EventForm = ({ closeEventModal }) => {
+  const { clickedDay } = useContext(CalendarContext);
+  const { mutate: addEVent, isLoading, ...rest } = addEventMutation(closeEventModal);
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = data => {
-    console.log('form data', data);
-    setEvent(data);
-  };
+  const addEvent = (title: string) => {
+    const event = {
+      date: clickedDay,
+      name: title,
+    };
+
+    addEVent(event, { onSuccess: closeEventModal });
+  }
+
+  const onSubmit = data => addEvent(data.title);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FieldGroup>
         <Input
-          {...register('eventName', { required: true })}
+          {...register('title', { required: true })}
           hasError={errors.eventName}
         />
 
-        {errors.eventName && <ErrorMessage>This field is required</ErrorMessage>}
+        {errors.title && <ErrorMessage>This field is required</ErrorMessage>}
       </FieldGroup>
 
-      <SubmitButton type="submit">Submit</SubmitButton>
+      <SubmitButton
+        type="submit"
+        disabled={isLoading}
+      >
+        {isLoading
+          ? <Spinner />
+          : <span>Submit</span>
+        }
+      </SubmitButton>
     </Form>
   );
 }

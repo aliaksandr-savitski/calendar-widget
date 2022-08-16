@@ -1,23 +1,29 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
 interface Event {
-  id: string;
   name: string;
   date: string;
 }
 
-const QUERY_KEY = 'CALENDAR_EVENTS';
+const FETCH_CALENDAR_EVENTS = 'FETCH_CALENDAR_EVENTS';
 
-const fetchEvents = async () => axios.get('/api/events');
+const fetchEvents = async () => {
+  const response = await axios.get('/api/events');
 
-const useEvents = () => {
-  const eventsQuery = useQuery([QUERY_KEY], fetchEvents);
-
-  return {
-    ...eventsQuery,
-    data: eventsQuery?.data?.data,
-  }
+  return response.data;
 };
 
-export default useEvents;
+const addEvent = async (event: Event) => {
+  const response = await axios.post('/api/events/new', event);
+
+  return response.data;
+};
+
+export const useEventsQuery = () => useQuery([FETCH_CALENDAR_EVENTS], fetchEvents);
+
+export const addEventMutation = () => useMutation(async (event: Event) => {
+  const mutation = addEvent(event);
+
+  return mutation;
+})

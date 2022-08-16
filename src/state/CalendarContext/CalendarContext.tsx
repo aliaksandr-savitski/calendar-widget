@@ -26,10 +26,6 @@ export const CalendarContextProvider = ({ children }) => {
     setNavigation(navigation + 1);
   };
 
-  const setEvent = (eventData) => {
-    console.log({eventData});
-  };
-
   const handleSetClickedDay = (date: string | null) => {
     if (!date) {
       setClickedDay(null);
@@ -39,23 +35,12 @@ export const CalendarContextProvider = ({ children }) => {
     setClickedDay(date);
   };
 
-  const addEvent = (title: string) => {
-    const newEvent = {
-      title,
-      date: clickedDay,
-    }
-
-    console.log({ newEvent });
-  };
-
   const contextValue = {
     navigation,
     clickedDay,
     goOneMonthBack,
     goOneMonthForward,
-    setEvent,
     handleSetClickedDay,
-    addEvent,
   };
 
   return (

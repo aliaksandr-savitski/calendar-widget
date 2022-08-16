@@ -6,7 +6,7 @@ import { CalendarContainer, CalendarDayItem, CalendarDayItemButton } from './Cal
 import { CalendarContext } from '@state/CalendarContext';
 import useCalendar from '@hooks/useCalendar';
 import EventModal from '@component/EventModal';
-import useEvents from '@hooks/useEvents';
+import { useEventsQuery } from '@hooks/useEvents';
 
 interface CalendarProps {
   paddingDaysCount: number;
@@ -23,7 +23,7 @@ const Calendar = ({
 }: CalendarProps) => {
   const { handleSetClickedDay } = useContext(CalendarContext);
   const { currentYear, currentMonth } = useCalendar();
-  const { data: events } = useEvents();
+  const { data: events } = useEventsQuery();
   const [isEventModalOpen, setEventModalOpen] = useState(false);
 
   const onDayButtonClick = (date: string) => () => {
@@ -47,6 +47,7 @@ const Calendar = ({
         {Array.from(Array(daysInCurrentMonth).keys())
           .map((item, index) => {
             const date = new Date(currentYear, currentMonth, index + 1).toISOString();
+
             const eventThisDate = events?.find(item => item.date === date);
 
             return (

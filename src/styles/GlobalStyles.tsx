@@ -22,6 +22,10 @@ const GlobalStyles = createGlobalStyle`
   button {
     cursor: pointer;
   }
+
+  @keyframes spinner {
+    to {transform: rotate(360deg);}
+  }
 `;
 
 export default GlobalStyles;

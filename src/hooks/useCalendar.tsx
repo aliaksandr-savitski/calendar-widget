@@ -12,7 +12,6 @@ const useCalendar = () => {
     navigation,
     goOneMonthBack,
     goOneMonthForward,
-    events,
   } = useContext(CalendarContext);
 
   const date = new Date();
@@ -46,7 +45,6 @@ const useCalendar = () => {
     daysInCurrentMonth,
     currentYear,
     currentMonth,
-    events,
   };
 };
 

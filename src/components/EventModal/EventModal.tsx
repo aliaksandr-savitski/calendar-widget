@@ -46,7 +46,6 @@ interface EventModalProps {
 
 const EventModal = ({
   closeEventModal,
-  setEvent,
 }: EventModalProps) => {
   const onOutsideClick = (event) => {
     if (event.target !== event.currentTarget) {
@@ -77,7 +76,7 @@ const EventModal = ({
       <ModalContainer>
         <ModalHeading>Add new event</ModalHeading>
   
-        <EventForm setEvent={setEvent} />
+        <EventForm closeEventModal={closeEventModal} />
       </ModalContainer>
     </ModalOuter>
   );
