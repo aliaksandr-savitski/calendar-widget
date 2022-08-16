@@ -1,19 +1,10 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 
-import useEvents from '@hooks/useEvents';
-
-interface Event {
-  id: string;
-  name: string;
-  date: string;
-}
-
 type CalendarContextType = {
   navigation: number;
   clickedDay: object | null;
   goOneMonthBack: () => void;
   goOneMonthForward: () => void;
-  events: Event[];
 }
 
 export const CalendarContext = createContext<CalendarContextType>({
@@ -21,14 +12,11 @@ export const CalendarContext = createContext<CalendarContextType>({
   clickedDay: null,
   goOneMonthBack: () => {},
   goOneMonthForward: () => {},
-  events: [],
 });
 
 export const CalendarContextProvider = ({ children }) => {
   const [navigation, setNavigation] = useState(0);
   const [clickedDay, setClickedDay] = useState(null);
-  const [events, setEvents] = useState([]);
-  const { data } = useEvents();
 
   const goOneMonthBack = () => {
     setNavigation(navigation - 1);
@@ -63,13 +51,11 @@ export const CalendarContextProvider = ({ children }) => {
   const contextValue = {
     navigation,
     clickedDay,
-    events: data,
     goOneMonthBack,
     goOneMonthForward,
     setEvent,
     handleSetClickedDay,
     addEvent,
-    setEvents,
   };
 
   return (
