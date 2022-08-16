@@ -2,9 +2,9 @@ import styled, { ThemeProvider } from 'styled-components';
 import { motion } from 'framer-motion';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
-import { CalendarContextProvider } from '@state/CalendarContext';
-import GlobalStyles from '@styles/GlobalStyles';
-import theme from '@styles/theme';
+import { CalendarContextProvider } from '@/state/CalendarContext';
+import GlobalStyles from '@/styles/GlobalStyles';
+import theme from '@/styles/theme';
 
 const Wrapper = styled.div`
   display: block;

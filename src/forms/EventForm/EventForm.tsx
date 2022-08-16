@@ -2,8 +2,8 @@ import { useContext } from 'react';
 import styled from 'styled-components';
 import { useForm } from "react-hook-form";
 
-import { CalendarContext } from '@state/CalendarContext';
-import { useAddEventMutation, useUpdateEventMutation } from '@hooks/useEvents';
+import { CalendarContext } from '@/state/CalendarContext';
+import { useAddEventMutation, useUpdateEventMutation } from '@/hooks/useEvents';
 
 const Form = styled.form`
   width: 100%;

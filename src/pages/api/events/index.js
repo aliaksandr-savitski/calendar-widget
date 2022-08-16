@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-const EVENTS = [
+export const EVENTS = [
   {
     id: '42803351-96A3-4A39-B1A8-91F905DDF37B',
     title: 'Meet dentist',

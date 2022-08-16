@@ -2,8 +2,8 @@ import { useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import EventForm from '@forms/EventForm';
-import { CalendarContext } from '@state/CalendarContext';
+import EventForm from '@/forms/EventForm';
+import { CalendarContext } from '@/state/CalendarContext';
 
 const ModalOuter = styled.div`
   position: absolute;

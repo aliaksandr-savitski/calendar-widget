@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 
-import { useEventsQuery, useAddEventMutation, useUpdateEventMutation } from '@hooks/useEvents';
+import { useEventsQuery, useAddEventMutation, useUpdateEventMutation } from '@/hooks/useEvents';
 
 type CalendarContextType = {
   navigation: number;

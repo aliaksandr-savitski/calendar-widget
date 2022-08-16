@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { CalendarContext } from '@state/CalendarContext';
+import { CalendarContext } from '@/state/CalendarContext';
 
 export const LOCALE = 'en-GB';
 const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];

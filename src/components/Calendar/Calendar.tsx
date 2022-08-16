@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 
 import { CalendarContainer, CalendarDayItem, CalendarDayItemButton } from './Calendar.styles';
 
-import { CalendarContext } from '@state/CalendarContext';
-import useCalendar from '@hooks/useCalendar';
-import EventModal from '@components/EventModal';
+import { CalendarContext } from '@/state/CalendarContext';
+import useCalendar from '@/hooks/useCalendar';
+import EventModal from '@/components/EventModal';
 
 interface CalendarProps {
   paddingDaysCount: number;
