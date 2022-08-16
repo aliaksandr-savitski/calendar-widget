@@ -1,5 +1,6 @@
 import styled, { ThemeProvider } from 'styled-components';
 
+import { CalendarContextProvider } from '@state/CalendarContext';
 import GlobalStyles from '@styles/GlobalStyles';
 import theme from '@styles/theme';
 
@@ -30,11 +31,13 @@ function App({ Component, pageProps }) {
       <GlobalStyles />
 
       <ThemeProvider theme={theme}>
-        <Wrapper>
-          <Container>
-            <Component {...pageProps} />
-          </Container>
-        </Wrapper>
+        <CalendarContextProvider>
+          <Wrapper>
+            <Container>
+              <Component {...pageProps} />
+            </Container>
+          </Wrapper>
+        </CalendarContextProvider>
       </ThemeProvider>
     </>
   );

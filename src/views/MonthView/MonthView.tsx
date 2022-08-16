@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+
+import { CalendarContext } from '@state/CalendarContext';
 
 import Header from './components/Header';
 import WeekdayNames from './components/WeekdayNames';
@@ -10,9 +12,11 @@ const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satur
 const getDaysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
 
 const MonthView = () => {
-  const [navigation, setNavigation] = useState(0);
-  const [clickedDay, setClickedDay] = useState(null);
-  const [events, setEvents] = useState();
+  const {
+    navigation,
+    goOneMonthBack,
+    goOneMonthForward,
+  } = useContext(CalendarContext);
 
   const date = new Date();
 
@@ -34,14 +38,6 @@ const MonthView = () => {
   });
   const [currentDayOfTheWeek] = dateString.split(', ');
   const paddingDaysNumber = WEEKDAYS.indexOf(currentDayOfTheWeek);
-
-  const goOneMonthBack = () => {
-    setNavigation(navigation - 1);
-  };
-
-  const goOneMonthForward = () => {
-    setNavigation(navigation + 1);
-  };
 
   return (
     <>

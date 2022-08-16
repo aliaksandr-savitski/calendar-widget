@@ -40,6 +40,11 @@ const Input = styled.input`
   &:focus {
     border-color: transparent;
   }
+
+  ${({ hasError }) => hasError
+    ? 'border-color: #FB3F4A;'
+    : ''
+  }
 `;
 
 const SubmitButton = styled.button`
@@ -55,14 +60,27 @@ const SubmitButton = styled.button`
   color: #fff;
 `;
 
-const EventForm = () => {
+interface EventForm {
+  setEvent: Function;
+}
+
+const EventForm = ({
+  setEvent
+}: EventForm) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => console.log(data);
+
+  const onSubmit = data => {
+    console.log('form data', data);
+    setEvent(data);
+  };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FieldGroup>
-        <Input {...register('eventName', { required: true })} />
+        <Input
+          {...register('eventName', { required: true })}
+          hasError={errors.eventName}
+        />
 
         {errors.eventName && <ErrorMessage>This field is required</ErrorMessage>}
       </FieldGroup>

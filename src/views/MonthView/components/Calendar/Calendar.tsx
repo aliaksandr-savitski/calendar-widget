@@ -2,7 +2,9 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import { CalendarContainer, CalendarDayItem, CalendarDayItemButton } from './Calendar.styles';
+
 import EventModal from '@component/EventModal';
+// import { useCalendarContext } from '@state/CalendarContext';
 
 interface CalendarProps {
   paddingDaysNumber: number;
@@ -17,10 +19,13 @@ const Calendar = ({
   currentDay,
   daysInCurrentMonth,
 }: CalendarProps) => {
+  // const { setClickedDay } = useCalendarContext();
   const [isEventModalOpen, setEventModalOpen] = useState(false);
 
   const openEventModal = () => {
     console.log('click openEventModal');
+    const date = new Date().toString();
+    // setClickedDay(date);
     setEventModalOpen(true);
   };
 
@@ -32,7 +37,7 @@ const Calendar = ({
     <>
       <CalendarContainer>
         {/* days span */}
-        {Array.from(Array(daysInCurrentMonth).keys()).map((item, index) => (
+        {Array.from(Array(paddingDaysNumber).keys()).map((item, index) => (
           <CalendarDayItem key={index} />
         ))}
     
