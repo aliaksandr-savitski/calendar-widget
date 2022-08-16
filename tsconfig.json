@@ -21,6 +21,7 @@
       "@component/*": ["./src/components/*"],
       "@views/*": ["./src/views/*"],
       "@forms/*": ["./src/forms/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "@state/*": ["./src/state/*"]
     }
   },

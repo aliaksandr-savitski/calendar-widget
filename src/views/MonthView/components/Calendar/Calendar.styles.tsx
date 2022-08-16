@@ -9,9 +9,28 @@ export const CalendarContainer = styled.ul`
 `;
 
 export const CalendarDayItem = styled.li`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  ${({ hasEvent }) => hasEvent
+    ? `
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: #25AFFA;
+        margin: 0.675rem
+      }
+    `
+    : ''
+  }
 `;
 
 export const CalendarDayItemButton = styled.button`

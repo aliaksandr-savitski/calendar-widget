@@ -1,35 +1,36 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import styled from 'styled-components';
 
 import { CalendarContainer, CalendarDayItem, CalendarDayItemButton } from './Calendar.styles';
 
+import { CalendarContext } from '@state/CalendarContext';
+import useCalendar from '@hooks/useCalendar';
 import EventModal from '@component/EventModal';
-// import { useCalendarContext } from '@state/CalendarContext';
 
 interface CalendarProps {
-  paddingDaysNumber: number;
+  paddingDaysCount: number;
   navigation: number;
   currentDay: number;
   daysInCurrentMonth: number;
 }
 
 const Calendar = ({
-  paddingDaysNumber,
+  paddingDaysCount,
   navigation,
   currentDay,
   daysInCurrentMonth,
 }: CalendarProps) => {
-  // const { setClickedDay } = useCalendarContext();
+  const { handleSetClickedDay } = useContext(CalendarContext);
+  const { currentYear, currentMonth, events } = useCalendar();
   const [isEventModalOpen, setEventModalOpen] = useState(false);
 
-  const openEventModal = () => {
-    console.log('click openEventModal');
-    const date = new Date().toString();
-    // setClickedDay(date);
+  const onDayButtonClick = (date: string) => () => {
+    handleSetClickedDay(date);
     setEventModalOpen(true);
   };
 
   const closeEventModal = () => {
+    handleSetClickedDay(null);
     setEventModalOpen(false);
   };
 
@@ -37,24 +38,28 @@ const Calendar = ({
     <>
       <CalendarContainer>
         {/* days span */}
-        {Array.from(Array(paddingDaysNumber).keys()).map((item, index) => (
+        {Array.from(Array(paddingDaysCount).keys()).map((item, index) => (
           <CalendarDayItem key={index} />
         ))}
     
-        {Array.from(Array(daysInCurrentMonth).keys()).map((item, index) => (
-          <CalendarDayItem key={index}>
-            <CalendarDayItemButton
-              type="button"
-              onClick={openEventModal}
-              isCurrentDay={navigation === 0 && index + 1 === currentDay}
-              disabled={navigation < 0 || (navigation === 0 && index + 1 <= currentDay)}
-            >
-              {index + 1}
-            </CalendarDayItemButton>
+        {Array.from(Array(daysInCurrentMonth).keys())
+          .map((item, index) => {
+            const date = new Date(currentYear, currentMonth, index + 1).toISOString();
+            const eventThisDate = events?.find(item => item.date === date);
 
-            
-          </CalendarDayItem>
-        ))}
+            return (
+              <CalendarDayItem key={index} hasEvent={!!eventThisDate}>
+                <CalendarDayItemButton
+                  type="button"
+                  onClick={onDayButtonClick(date)}
+                  isCurrentDay={navigation === 0 && index + 1 === currentDay}
+                  disabled={navigation < 0 || (navigation === 0 && index + 1 <= currentDay)}
+                >
+                  {index + 1}
+                </CalendarDayItemButton>
+              </CalendarDayItem>
+            )
+          })}
       </CalendarContainer>
 
       {isEventModalOpen
