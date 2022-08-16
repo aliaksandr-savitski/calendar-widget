@@ -56,7 +56,6 @@ const EventModal = ({
   };
 
   const handleEscapeKeyPress = (event) => {
-    console.log(event);
     if (event.key === 'Escape' || event.code === 'Escape') {
 
       closeEventModal();
@@ -75,7 +74,7 @@ const EventModal = ({
     <ModalOuter onClick={onOutsideClick}>
       <ModalContainer>
         <ModalHeading>Add new event</ModalHeading>
-  
+
         <EventForm closeEventModal={closeEventModal} />
       </ModalContainer>
     </ModalOuter>

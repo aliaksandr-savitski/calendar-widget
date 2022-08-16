@@ -7,6 +7,8 @@ interface Event {
 }
 
 const FETCH_CALENDAR_EVENTS = 'FETCH_CALENDAR_EVENTS';
+const ADD_CALENDAR_EVENT = 'ADD_CALENDAR_EVENT';
+const PATCH_CALENDAR_EVENT = 'PATCH_CALENDAR_EVENT';
 
 const fetchEvents = async () => {
   const response = await axios.get('/api/events');
@@ -26,13 +28,13 @@ const patchEvent = async (id: string, title: string) => {
   return response.data;
 };
 
-export const useEventsQuery = () => useQuery([FETCH_CALENDAR_EVENTS], fetchEvents);
+export const useEventsQuery = (options) => useQuery([FETCH_CALENDAR_EVENTS], fetchEvents, options);
 
 export const useAddEventMutation = () => useMutation(async (event: Event) => {
   const mutation = addEvent(event);
 
   return mutation;
-});
+}, { mutationKey: [ADD_CALENDAR_EVENT] });
 
 type UpdateEventArguments = {
   id: string;
@@ -43,4 +45,4 @@ export const useUpdateEventMutation = () => useMutation(async ({ id, title }: Up
   const mutation = patchEvent(id, title);
 
   return mutation;
-});
+}, { mutationKey: [PATCH_CALENDAR_EVENT] });

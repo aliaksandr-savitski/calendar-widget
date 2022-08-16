@@ -1,12 +1,10 @@
-import { useState, useContext } from 'react';
-import styled from 'styled-components';
+import { useState, useContext, useEffect } from 'react';
 
 import { CalendarContainer, CalendarDayItem, CalendarDayItemButton } from './Calendar.styles';
 
 import { CalendarContext } from '@state/CalendarContext';
 import useCalendar from '@hooks/useCalendar';
 import EventModal from '@component/EventModal';
-import { useEventsQuery } from '@hooks/useEvents';
 
 interface CalendarProps {
   paddingDaysCount: number;
@@ -21,9 +19,8 @@ const Calendar = ({
   currentDay,
   daysInCurrentMonth,
 }: CalendarProps) => {
-  const { handleSetClickedDay } = useContext(CalendarContext);
+  const { handleSetClickedDay, events } = useContext(CalendarContext);
   const { currentYear, currentMonth } = useCalendar();
-  const { data: events } = useEventsQuery();
   const [isEventModalOpen, setEventModalOpen] = useState(false);
 
   const onDayButtonClick = (date: string) => () => {
@@ -35,6 +32,10 @@ const Calendar = ({
     handleSetClickedDay(null);
     setEventModalOpen(false);
   };
+
+  useEffect(() => {
+    console.log(events);
+  }, [events]);
 
   return (
     <>

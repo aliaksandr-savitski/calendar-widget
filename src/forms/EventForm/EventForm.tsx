@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { useForm } from "react-hook-form";
 
@@ -96,10 +96,9 @@ const SubmitButtonText = ({ isUpdateMode }) => (
 );
 
 const EventForm = ({ closeEventModal }) => {
-  const { clickedDay } = useContext(CalendarContext);
-  const { data: events } = useEventsQuery();
-  const { mutate: addEvent, isAddEventLoading } = useAddEventMutation();
-  const { mutate: patchEvent, isPatchEventLoading } = useUpdateEventMutation();
+  const { clickedDay, events, updateEvent, addEvent } = useContext(CalendarContext);
+  const { mutate: mutateAddEvent, isAddEventLoading } = useAddEventMutation();
+  const { mutate: mutatePatchEvent, isPatchEventLoading } = useUpdateEventMutation();
   const existingEvent = events?.find(item => item.date === clickedDay);
   
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
@@ -116,11 +115,21 @@ const EventForm = ({ closeEventModal }) => {
       title,
     };
 
-    addEvent(event, { onSuccess: closeEventModal });
+    mutateAddEvent(event, {
+      onSuccess: (data) => {
+        addEvent(data);
+        closeEventModal();
+      }
+    });
   }
 
   const handlePatchEvent = (title) => {
-    patchEvent({ title, id:existingEvent.id });
+    mutatePatchEvent({ title, id: existingEvent.id }, {
+      onSuccess: (data) => {
+        updateEvent(data.id, data);
+        closeEventModal();
+      }
+    });
   }
 
   const onSubmit = ({ title }) => {
