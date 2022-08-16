@@ -10,16 +10,17 @@ const Wrapper = styled.div`
   position: relative;
   width: 100vw;
   height: 100vh;
+  padding-top: 15rem;
   background: #E5E5E5;
 `;
 
 const Container = styled.div`
   position: relative;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   width: 35rem;
   padding: 4.5rem;
-  margin: 5rem auto;
+  margin: auto;
   background: #fff;
   border-radius: 0.75rem;
   box-shadow: 0px 4px 32px rgba(170, 170, 170, 0.3);
