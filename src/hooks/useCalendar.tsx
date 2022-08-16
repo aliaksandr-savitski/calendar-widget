@@ -8,11 +8,7 @@ const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satur
 const getDaysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
 
 const useCalendar = () => {
-  const {
-    navigation,
-    goOneMonthBack,
-    goOneMonthForward,
-  } = useContext(CalendarContext);
+  const { navigation, setNavigation } = useContext(CalendarContext);
 
   const date = new Date();
 
@@ -34,6 +30,14 @@ const useCalendar = () => {
   });
   const [currentDayOfTheWeek] = dateString.split(', ');
   const paddingDaysCount = WEEKDAYS.indexOf(currentDayOfTheWeek);
+
+  const goOneMonthBack = () => {
+    setNavigation(navigation - 1);
+  };
+
+  const goOneMonthForward = () => {
+    setNavigation(navigation + 1);
+  };
 
   return {
     date,

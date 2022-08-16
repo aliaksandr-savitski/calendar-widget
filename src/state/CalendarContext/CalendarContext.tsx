@@ -5,15 +5,11 @@ import { useEventsQuery, useAddEventMutation, useUpdateEventMutation } from '@ho
 type CalendarContextType = {
   navigation: number;
   clickedDay: object | null;
-  goOneMonthBack: () => void;
-  goOneMonthForward: () => void;
 }
 
 export const CalendarContext = createContext<CalendarContextType>({
   navigation: 0,
   clickedDay: null,
-  goOneMonthBack: () => {},
-  goOneMonthForward: () => {},
 });
 
 export const CalendarContextProvider = ({ children }) => {
@@ -25,14 +21,6 @@ export const CalendarContextProvider = ({ children }) => {
   const { data: fetchedEventsData } = useEventsQuery({
     enabled: !isAppSetup,
   });
-
-  const goOneMonthBack = () => {
-    setNavigation(navigation - 1);
-  };
-
-  const goOneMonthForward = () => {
-    setNavigation(navigation + 1);
-  };
 
   const handleSetClickedDay = (date: string | null) => {
     if (!date) {
@@ -73,8 +61,7 @@ export const CalendarContextProvider = ({ children }) => {
     events,
     addEvent,
     updateEvent,
-    goOneMonthBack,
-    goOneMonthForward,
+    setNavigation,
     handleSetClickedDay,
   };
 

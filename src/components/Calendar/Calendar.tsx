@@ -33,10 +33,6 @@ const Calendar = ({
     setEventModalOpen(false);
   };
 
-  useEffect(() => {
-    console.log(events);
-  }, [events]);
-
   return (
     <>
       <CalendarContainer>
