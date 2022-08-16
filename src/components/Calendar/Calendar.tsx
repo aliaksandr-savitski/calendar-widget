@@ -4,7 +4,7 @@ import { CalendarContainer, CalendarDayItem, CalendarDayItemButton } from './Cal
 
 import { CalendarContext } from '@state/CalendarContext';
 import useCalendar from '@hooks/useCalendar';
-import EventModal from '@component/EventModal';
+import EventModal from '@components/EventModal';
 
 interface CalendarProps {
   paddingDaysCount: number;

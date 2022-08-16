@@ -18,8 +18,7 @@
     "paths": {
       "@styles/*": ["./src/styles/*"],
       "@pages/*": ["./src/pages/*"],
-      "@component/*": ["./src/components/*"],
-      "@views/*": ["./src/views/*"],
+      "@components/*": ["./src/components/*"],
       "@forms/*": ["./src/forms/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@state/*": ["./src/state/*"]

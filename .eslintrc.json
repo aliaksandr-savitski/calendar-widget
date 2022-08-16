@@ -1,8 +1,8 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "semi": "error"
-    // "import/no-unresolved": "error"
+    "semi": "error",
+    "import/no-unresolved": "error"
   },
   "settings": {
     "import/parsers": {
