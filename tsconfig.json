@@ -21,7 +21,7 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@/*": [, "tests/test-utils.tsz"
+      "@/*": [
         "./src/*"
       ]
     },
