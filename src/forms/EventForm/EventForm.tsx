@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useForm } from "react-hook-form";
 
 import { CalendarContext } from '@state/CalendarContext';
-import { addEventMutation } from '@hooks/useEvents';
+import { useEventsQuery, useAddEventMutation, useUpdateEventMutation } from '@hooks/useEvents';
 
 const Form = styled.form`
   width: 100%;
@@ -86,28 +86,60 @@ interface EventForm {
   setEvent: Function;
 }
 
+const SubmitButtonText = ({ isUpdateMode }) => (
+  <span>
+    {isUpdateMode
+      ? 'Update'
+      : 'Submit'
+    }
+  </span>
+);
+
 const EventForm = ({ closeEventModal }) => {
   const { clickedDay } = useContext(CalendarContext);
-  const { mutate: addEVent, isLoading, ...rest } = addEventMutation(closeEventModal);
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { data: events } = useEventsQuery();
+  const { mutate: addEvent, isAddEventLoading } = useAddEventMutation();
+  const { mutate: patchEvent, isPatchEventLoading } = useUpdateEventMutation();
+  const existingEvent = events?.find(item => item.date === clickedDay);
+  
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    mode: 'onSubmit',
+    defaultValues: {
+      title: existingEvent?.title ?? '',
+    }
+  });
+  const titleField = watch('title');
 
-  const addEvent = (title: string) => {
+  const handleAddEvent = (title: string) => {
     const event = {
       date: clickedDay,
-      name: title,
+      title,
     };
 
-    addEVent(event, { onSuccess: closeEventModal });
+    addEvent(event, { onSuccess: closeEventModal });
   }
 
-  const onSubmit = data => addEvent(data.title);
+  const handlePatchEvent = (title) => {
+    patchEvent({ title, id:existingEvent.id });
+  }
+
+  const onSubmit = ({ title }) => {
+    if (!existingEvent) {
+      handleAddEvent(title);
+      return;
+    }
+
+    handlePatchEvent(title);
+  }
+
+  const isLoading = isAddEventLoading || isPatchEventLoading;
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FieldGroup>
         <Input
           {...register('title', { required: true })}
-          hasError={errors.eventName}
+          hasError={errors.title}
         />
 
         {errors.title && <ErrorMessage>This field is required</ErrorMessage>}
@@ -115,11 +147,11 @@ const EventForm = ({ closeEventModal }) => {
 
       <SubmitButton
         type="submit"
-        disabled={isLoading}
+        disabled={isLoading || titleField === existingEvent?.title}
       >
         {isLoading
           ? <Spinner />
-          : <span>Submit</span>
+          : <SubmitButtonText isUpdateMode={!!existingEvent} />
         }
       </SubmitButton>
     </Form>
