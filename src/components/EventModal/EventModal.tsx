@@ -1,6 +1,6 @@
+import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
 
 import EventForm from '@/forms/EventForm';
 import { CalendarContext } from '@/state/CalendarContext';
@@ -44,7 +44,7 @@ const ModalHeader = styled.header`
 const Divider = styled.hr`
   width: 100%;
   height: 1px;
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   border: none;
   margin: 1rem 0;
 `;
@@ -57,16 +57,13 @@ const ModalHeading = styled.h2`
 `;
 
 interface EventModalProps {
-  closeEventModal: Function,
+  closeEventModal: Function;
   isOpen: boolean;
 }
 
-const EventModal = ({
-  closeEventModal,
-  isOpen,
-}: EventModalProps) => {
+const EventModal = ({ closeEventModal, isOpen }: EventModalProps) => {
   const { clickedDay, events } = useContext(CalendarContext);
-  const existingEvent = events?.find(item => item.date === clickedDay);
+  const existingEvent = events?.find((item) => item.date === clickedDay);
 
   const onOutsideClick = (event) => {
     if (event.target !== event.currentTarget) {
@@ -78,7 +75,6 @@ const EventModal = ({
 
   const handleEscapeKeyPress = (event) => {
     if (event.key === 'Escape' || event.code === 'Escape') {
-
       closeEventModal();
     }
   };
@@ -88,42 +84,39 @@ const EventModal = ({
 
     return () => {
       window.removeEventListener('keydown', handleEscapeKeyPress);
-    }
+    };
   }, []);
 
   const isUpdate = !!existingEvent;
 
   return (
     <AnimatePresence>
-      {isOpen
-        ? (
-          <ModalOuter
-            onClick={onOutsideClick}
-            as={motion.div}
-            key="modal"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <ModalContainer>
-              <ModalHeader>
-                <ModalHeading>{`${isUpdate ? 'Update' : 'Add new'}`} event</ModalHeading>
-              </ModalHeader>
+      {isOpen ? (
+        <ModalOuter
+          onClick={onOutsideClick}
+          as={motion.div}
+          key="modal"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <ModalContainer>
+            <ModalHeader>
+              <ModalHeading>{`${isUpdate ? 'Update' : 'Add new'}`} event</ModalHeading>
+            </ModalHeader>
 
-              <Divider />
+            <Divider />
 
-              <EventForm
-                closeEventModal={closeEventModal}
-                existingEvent={existingEvent}
-                isUpdateMode={isUpdate}
-              />
-            </ModalContainer>
-          </ModalOuter>
-        )
-        : null
-      }
+            <EventForm
+              closeEventModal={closeEventModal}
+              existingEvent={existingEvent}
+              isUpdateMode={isUpdate}
+            />
+          </ModalContainer>
+        </ModalOuter>
+      ) : null}
     </AnimatePresence>
   );
-}
+};
 
 export default EventModal;

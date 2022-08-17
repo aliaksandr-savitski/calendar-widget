@@ -1,11 +1,11 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect } from 'react';
 
-import { useEventsQuery, useAddEventMutation, useUpdateEventMutation } from '@/hooks/useEvents';
+import { useEventsQuery } from '@/hooks/useEvents';
 
 type CalendarContextType = {
   navigation: number;
   clickedDay: object | null;
-}
+};
 
 export const CalendarContext = createContext<CalendarContextType>({
   navigation: 0,
@@ -41,7 +41,7 @@ export const CalendarContextProvider = ({ children }) => {
     });
 
     setEvents(newEventsArray);
-  }
+  };
 
   const addEvent = (event) => {
     setEvents([...events, event]);
@@ -65,9 +65,5 @@ export const CalendarContextProvider = ({ children }) => {
     handleSetClickedDay,
   };
 
-  return (
-    <CalendarContext.Provider value={contextValue}>
-      {children}
-    </CalendarContext.Provider>
-  );
+  return <CalendarContext.Provider value={contextValue}>{children}</CalendarContext.Provider>;
 };

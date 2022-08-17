@@ -1,6 +1,6 @@
-import styled, { ThemeProvider } from 'styled-components';
-import { motion } from 'framer-motion';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import styled, { ThemeProvider } from 'styled-components';
 
 import { CalendarContextProvider } from '@/state/CalendarContext';
 import GlobalStyles from '@/styles/GlobalStyles';
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
   padding-top: 15rem;
-  background: #E5E5E5;
+  background: #e5e5e5;
 `;
 
 const Container = styled.div`
@@ -47,6 +47,6 @@ function App({ Component, pageProps }) {
       </QueryClientProvider>
     </>
   );
-};
+}
 
 export default App;

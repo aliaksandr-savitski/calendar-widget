@@ -13,7 +13,7 @@ const useCalendar = () => {
   const date = new Date();
 
   if (navigation !== 0) {
-    date.setMonth(new Date().getMonth() + navigation)
+    date.setMonth(new Date().getMonth() + navigation);
   }
 
   const currentDay = date.getDate();

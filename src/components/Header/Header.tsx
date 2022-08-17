@@ -12,11 +12,7 @@ interface HeaderProps {
   onForward: Function;
 }
 
-const Header = ({
-  navigationDate,
-  onBack,
-  onForward,
-}: HeaderProps) => (
+const Header = ({ navigationDate, onBack, onForward }: HeaderProps) => (
   <HeaderContainer>
     <NavigationDate>{navigationDate}</NavigationDate>
     <NavigationWrapper>

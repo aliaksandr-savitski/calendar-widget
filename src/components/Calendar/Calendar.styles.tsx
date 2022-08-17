@@ -14,8 +14,9 @@ export const CalendarDayItem = styled.li`
   justify-content: center;
   align-items: center;
 
-  ${({ hasEvent }) => hasEvent
-    ? `
+  ${({ hasEvent }) =>
+    hasEvent
+      ? `
       &::before {
         content: '';
         display: block;
@@ -29,8 +30,7 @@ export const CalendarDayItem = styled.li`
         margin: 0.675rem
       }
     `
-    : ''
-  }
+      : ''}
 `;
 
 export const CalendarDayItemButton = styled.button`
@@ -51,8 +51,9 @@ export const CalendarDayItemButton = styled.button`
     cursor: pointer;
   }
 
-  ${({ isCurrentDay }) => isCurrentDay
-    ? `
+  ${({ isCurrentDay }) =>
+    isCurrentDay
+      ? `
       background-color: #FB3F4A;
       color: #fff;
       transition: none;
@@ -61,11 +62,10 @@ export const CalendarDayItemButton = styled.button`
         background-color: #c8323b;
       }
     `
-    : ``
-  }
+      : ``}
 
   &:disabled {
     pointer-events: none;
-    color: #C4C4C4;
+    color: #c4c4c4;
   }
 `;

@@ -1,9 +1,9 @@
 import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { useForm } from "react-hook-form";
 
-import { CalendarContext } from '@/state/CalendarContext';
 import { useAddEventMutation, useUpdateEventMutation } from '@/hooks/useEvents';
+import { CalendarContext } from '@/state/CalendarContext';
 
 const Form = styled.form`
   width: 100%;
@@ -21,14 +21,14 @@ const FieldGroup = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   margin: 1rem 0 2rem;
-  color: #4D4D4D;
+  color: #4d4d4d;
 `;
 
 const ErrorMessage = styled.span`
   display: flex;
   position: absolute;
   top: 110%;
-  color: #FB3F4A;
+  color: #fb3f4a;
   font-size: 1rem;
 `;
 
@@ -44,21 +44,18 @@ const Input = styled.input`
   padding: 0.75rem 1rem;
   outline-offset: 2px;
   border-radius: 4px;
-  border: 1px solid #D9D9D9;
-  outline-color: #1A94DA;
+  border: 1px solid #d9d9d9;
+  outline-color: #1a94da;
   color: #333;
 
   &:focus {
     border-color: transparent;
   }
 
-  ${({ hasError }) => hasError
-    ? 'border-color: #FB3F4A;'
-    : ''
-  }
+  ${({ hasError }) => (hasError ? 'border-color: #FB3F4A;' : '')}
 
   &:disabled {
-    color: #8C8C8C;
+    color: #8c8c8c;
   }
 `;
 
@@ -69,22 +66,22 @@ const SubmitButton = styled.button`
   align-items: center;
   border: 1px solid rgba(51, 51, 51, 0.5);
   border-radius: 4px;
-  background: #1A94DA;
-  border: 1px solid #057DC2;
+  background: #1a94da;
+  border: 1px solid #057dc2;
   padding: 0.5rem 2rem;
   color: #fff;
   transition: all 0.2s linear;
 
   &:disabled {
     background: #ccc;
-    border-color: #8C8C8C;
+    border-color: #8c8c8c;
     cursor: not-allowed;
   }
 `;
 
 const CancelButton = styled.button`
   border: none;
-  color: #4D4D4D;
+  color: #4d4d4d;
   text-decoration: none;
   background: none;
   margin: 1rem 0;
@@ -109,29 +106,23 @@ interface EventForm {
   setEvent: Function;
 }
 
-const SubmitButtonText = ({ isUpdateMode }) => (
-  <span>
-    {isUpdateMode
-      ? 'Update'
-      : 'Submit'
-    }
-  </span>
-);
+const SubmitButtonText = ({ isUpdateMode }) => <span>{isUpdateMode ? 'Update' : 'Submit'}</span>;
 
-const EventForm = ({
-  closeEventModal,
-  existingEvent,
-  isUpdateMode,
-}) => {
+const EventForm = ({ closeEventModal, existingEvent, isUpdateMode }) => {
   const { clickedDay, updateEvent, addEvent } = useContext(CalendarContext);
   const { mutate: mutateAddEvent, isLoading: isAddEventLoading } = useAddEventMutation();
   const { mutate: mutatePatchEvent, isLoading: isPatchEventLoading } = useUpdateEventMutation();
-  
-  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
     mode: 'onSubmit',
     defaultValues: {
       title: existingEvent?.title ?? '',
-    }
+    },
   });
   const titleField = watch('title');
 
@@ -145,18 +136,21 @@ const EventForm = ({
       onSuccess: (data) => {
         addEvent(data);
         closeEventModal();
-      }
+      },
     });
-  }
+  };
 
   const handlePatchEvent = (title) => {
-    mutatePatchEvent({ title, id: existingEvent.id }, {
-      onSuccess: (data) => {
-        updateEvent(data.id, data);
-        closeEventModal();
-      }
-    });
-  }
+    mutatePatchEvent(
+      { title, id: existingEvent.id },
+      {
+        onSuccess: (data) => {
+          updateEvent(data.id, data);
+          closeEventModal();
+        },
+      },
+    );
+  };
 
   const onSubmit = ({ title }) => {
     if (!isUpdateMode) {
@@ -165,7 +159,7 @@ const EventForm = ({
     }
 
     handlePatchEvent(title);
-  }
+  };
 
   const isLoading = isAddEventLoading || isPatchEventLoading;
 
@@ -173,39 +167,23 @@ const EventForm = ({
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FieldGroup>
         <FieldLabel htmlFor="date">Date:</FieldLabel>
-        <Input
-          id="date"
-          value={clickedDay}
-          disabled
-        />
+        <Input id="date" value={clickedDay} disabled />
       </FieldGroup>
 
       <FieldGroup>
         <FieldLabel htmlFor="title">Title:</FieldLabel>
-        <Input
-          {...register('title', { required: true })}
-          id="title"
-          hasError={errors.title}
-        />
+        <Input {...register('title', { required: true })} id="title" hasError={errors.title} />
 
         {errors.title && <ErrorMessage>This field is required</ErrorMessage>}
       </FieldGroup>
 
-      <SubmitButton
-        type="submit"
-        disabled={isLoading || titleField === existingEvent?.title}
-      >
-        {isLoading
-          ? <Spinner />
-          : <SubmitButtonText isUpdateMode={!!isUpdateMode} />
-        }
+      <SubmitButton type="submit" disabled={isLoading || titleField === existingEvent?.title}>
+        {isLoading ? <Spinner /> : <SubmitButtonText isUpdateMode={!!isUpdateMode} />}
       </SubmitButton>
 
-      <CancelButton onClick={closeEventModal}>
-        Cancel
-      </CancelButton>
+      <CancelButton onClick={closeEventModal}>Cancel</CancelButton>
     </Form>
   );
-}
+};
 
 export default EventForm;

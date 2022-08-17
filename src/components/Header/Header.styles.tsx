@@ -32,7 +32,7 @@ export const NavigationButton = styled.button`
   transition: background-color 0.2s ease;
   cursor: pointer;
   border-radius: 50%;
-  
+
   &:hover {
     background-color: rgba(51, 51, 51, 0.1);
   }
@@ -47,14 +47,14 @@ export const NavigationButtonArrow = styled.div`
   order: 0;
   flex-grow: 0;
 
-  ${({ direction }) => direction === 'right'
-    ? `
+  ${({ direction }) =>
+    direction === 'right'
+      ? `
       border-left: none;
       border-top: none;
     `
-    : `
+      : `
       border-right: none;
       border-bottom: none;
-    `
-  }
+    `}
 `;

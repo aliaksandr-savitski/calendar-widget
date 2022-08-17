@@ -1,9 +1,9 @@
 import Head from 'next/head';
 
-import useCalendar, { LOCALE } from '@/hooks/useCalendar';
+import Calendar from '@/components/Calendar';
 import Header from '@/components/Header';
 import WeekdayNames from '@/components/WeekdayNames';
-import Calendar from '@/components/Calendar';
+import useCalendar, { LOCALE } from '@/hooks/useCalendar';
 
 export default function HomePage() {
   const {

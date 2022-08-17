@@ -1,6 +1,6 @@
 import { WeekdaysList, WeekDay } from './WeekdayNames.styles';
 
-const WEEKDAYS_MAP = [ 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+const WEEKDAYS_MAP = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 
 const WeekdayNames = () => (
   <WeekdaysList>

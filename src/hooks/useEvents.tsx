@@ -30,19 +30,27 @@ const patchEvent = async (id: string, title: string) => {
 
 export const useEventsQuery = (options) => useQuery([FETCH_CALENDAR_EVENTS], fetchEvents, options);
 
-export const useAddEventMutation = () => useMutation(async (event: Event) => {
-  const mutation = addEvent(event);
+export const useAddEventMutation = () =>
+  useMutation(
+    async (event: Event) => {
+      const mutation = addEvent(event);
 
-  return mutation;
-}, { mutationKey: [ADD_CALENDAR_EVENT] });
+      return mutation;
+    },
+    { mutationKey: [ADD_CALENDAR_EVENT] },
+  );
 
 type UpdateEventArguments = {
   id: string;
   title: string;
-}
+};
 
-export const useUpdateEventMutation = () => useMutation(async ({ id, title }: UpdateEventArguments) => {
-  const mutation = patchEvent(id, title);
+export const useUpdateEventMutation = () =>
+  useMutation(
+    async ({ id, title }: UpdateEventArguments) => {
+      const mutation = patchEvent(id, title);
 
-  return mutation;
-}, { mutationKey: [PATCH_CALENDAR_EVENT] });
+      return mutation;
+    },
+    { mutationKey: [PATCH_CALENDAR_EVENT] },
+  );

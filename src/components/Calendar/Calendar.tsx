@@ -1,11 +1,11 @@
-import { useState, useContext } from 'react';
 import { motion } from 'framer-motion';
+import { useState, useContext } from 'react';
+
+import EventModal from '@/components/EventModal';
+import useCalendar from '@/hooks/useCalendar';
+import { CalendarContext } from '@/state/CalendarContext';
 
 import { CalendarContainer, CalendarDayItem, CalendarDayItemButton } from './Calendar.styles';
-
-import { CalendarContext } from '@/state/CalendarContext';
-import useCalendar from '@/hooks/useCalendar';
-import EventModal from '@/components/EventModal';
 
 interface CalendarProps {
   paddingDaysCount: number;
@@ -41,31 +41,30 @@ const Calendar = ({
         {Array.from(Array(paddingDaysCount).keys()).map((item, index) => (
           <CalendarDayItem key={index} />
         ))}
-    
-        {Array.from(Array(daysInCurrentMonth).keys())
-          .map((item, index) => {
-            const date = new Date(currentYear, currentMonth, index + 2).toISOString();
 
-            const eventThisDate = events?.find(({ date: eventDate }) => eventDate === date);
+        {Array.from(Array(daysInCurrentMonth).keys()).map((item, index) => {
+          const date = new Date(currentYear, currentMonth, index + 2).toISOString();
 
-            return (
-              <CalendarDayItem key={index} hasEvent={!!eventThisDate}>
-                <CalendarDayItemButton
-                  type="button"
-                  onClick={onDayButtonClick(date)}
-                  isCurrentDay={navigation === 0 && index + 1 === currentDay}
-                  disabled={navigation < 0 || (navigation === 0 && index + 1 < currentDay)}
-                >
-                  {index + 1}
-                </CalendarDayItemButton>
-              </CalendarDayItem>
-            )
-          })}
+          const eventThisDate = events?.find(({ date: eventDate }) => eventDate === date);
+
+          return (
+            <CalendarDayItem key={index} hasEvent={!!eventThisDate}>
+              <CalendarDayItemButton
+                type="button"
+                onClick={onDayButtonClick(date)}
+                isCurrentDay={navigation === 0 && index + 1 === currentDay}
+                disabled={navigation < 0 || (navigation === 0 && index + 1 < currentDay)}
+              >
+                {index + 1}
+              </CalendarDayItemButton>
+            </CalendarDayItem>
+          );
+        })}
       </CalendarContainer>
 
       <EventModal closeEventModal={closeEventModal} isOpen={isEventModalOpen} />
     </>
   );
-}
+};
 
 export default Calendar;
